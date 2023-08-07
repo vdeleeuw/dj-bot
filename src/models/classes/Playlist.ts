@@ -12,7 +12,7 @@ export class Playlist {
     public constructor(youtubePlaylist: YoutubePlaylist) {
         this.data = youtubePlaylist
         this.url = this?.data?.url!
-        this.url = this?.data?.title!
+        this.title = this?.data?.title!
         this.videos = this.data.videos
             .filter((video) => video.title != "Private video" && video.title != "Deleted video")
             .map((video) => {

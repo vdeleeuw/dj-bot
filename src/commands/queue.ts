@@ -22,7 +22,7 @@ export default {
         let currentPage = 0
         const embeds = generateQueueEmbed(interaction, queue.songs)
 
-        await interaction.reply("⏳ Loading queue...")
+        await interaction.reply(i18n.__mf("queue.loading"))
 
         if (interaction.replied)
             await interaction.editReply({
@@ -79,12 +79,11 @@ export default {
 
 function generateQueueEmbed(interaction: CommandInteraction, songs: Song[]) {
     let embeds = []
-    let k = 10
+    let k = 50
 
-    for (let i = 0; i < songs.length; i += 10) {
+    for (let i = 0; i < songs.length; i += 50, k += 50) {
         const current = songs.slice(i, k)
         let j = i
-        k += 10
 
         const info = current.map((track) => `${++j} - ${track.title}`).join("\n")
 

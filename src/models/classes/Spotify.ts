@@ -70,14 +70,14 @@ export class Spotify {
             while (url) {
                 const response = await axios.get(`${url}`, options)
                 // workarround because next returns non formatted data
-                const tracks = options.params.fields ? response.data?.tracks?.items : response.data?.items 
-                url = options.params.fields ? response.data?.tracks?.next : response.data?.next 
+                const tracks = options.params.fields ? response.data?.tracks?.items : response.data?.items
+                url = options.params.fields ? response.data?.tracks?.next : response.data?.next
 
                 for (const item of tracks) {
-                    const trackInfo = `${item?.track?.name} ${item?.track?.artists.map((a: any) => a.name).join(" ")}`
+                    const trackInfo = `${item?.track?.name} - ${item?.track?.artists.map((a: any) => a.name).join(" ")}`
                     result.push(trackInfo)
                 }
-             
+
                 options.params.fields = ""
             }
 

@@ -15,6 +15,6 @@ export default {
 
         queue.player.stop(true)
 
-        interaction.reply({ content: i18n.__mf("skip.result", { author: interaction.user.id }) }).catch(null)
+        interaction.reply({ content: i18n.__mf("skip.result", { author: interaction.user.id }) }).catch(console.error)
     }
 }

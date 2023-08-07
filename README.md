@@ -27,4 +27,3 @@ Utiliser [pm2](https://medium.com/@aunnnn/automate-digitalocean-deployment-for-n
 
 Projet réalisé par [vdeleeuw](https://github.com/vdeleeuw).  
 Projet parti d'une base d'[evobot](https://github.com/eritislami/evobot/blob/master/README.md) épurée.
-

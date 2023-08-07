@@ -56,9 +56,10 @@
     },
     "queue": {
         "description": "Show the music queue and now playing.",
+        "loading": "⏳ Loading...",
         "missingPermissionMessage": "Missing permission to manage messages or add reactions",
         "errorNotQueue": "❌ **Nothing playing in this server**",
-        "currentPage": "Current Page - ",
+        "currentPage": "Current Page",
         "embedTitle": "Song Queue\n",
         "embedCurrentSong": "**Current Song - [{title}]({url})**\n\n{info}"
     },
@@ -102,7 +103,6 @@
         "enabled": "**enabled**",
         "disabled": "**disabled**",
         "errorNotChannel": "You need to join a voice channel first!",
-        "cooldownMessage": "please wait {time} more second(s) before reusing the `{name}` command.",
         "errorCommand": "There was an error executing that command."
     }
 }
