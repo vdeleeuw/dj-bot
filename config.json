@@ -1,0 +1,11 @@
+{
+    "discord": {
+        "token": "",
+        "idle_time": 30,
+        "locale": "en"
+    },
+    "spotify": {
+        "client_id": "",
+        "client_secret": ""
+    }
+}

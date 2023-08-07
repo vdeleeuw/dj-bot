@@ -1,0 +1,107 @@
+{
+    "help": {
+        "description": "Afficher toutes les commandes et leurs descriptions",
+        "embedTitle": "{botname} Aide",
+        "embedDescription": "Liste de toutes les commandes"
+    },
+    "nowplaying": {
+        "description": "Afficher la chanson en cours de lecture",
+        "errorNotQueue": "Il n'y a rien à jouer.",
+        "embedTitle": "Lecture en cours",
+        "live": " ◉ LIVE",
+        "timeRemaining": "Temps restant: {time}"
+    },
+    "pause": {
+        "description": "Mettre en pause la musique en cours de lecture",
+        "errorNotQueue": "Il n'y a rien à jouer.",
+        "result": "<@{author}> ⏸ à mis en pause la musique."
+    },
+    "ping": {
+        "description": "Afficher le ping du bot",
+        "result": "📈 Ping vers l'API: {ping} ms"
+    },
+    "play": {
+        "description": "Écoute de la musique depuis YouTube ou SoundCloud",
+        "loading": "⏳ Chargement...",
+        "errorNotChannel": "Vous devez d'abord rejoindre un salon vocal!",
+        "errorNotInSameChannel": "Vous devez être dans le même salon que {user}",
+        "errorIsYoutubePlaylist": "🔗 Ce lien est une playlist Youtube !",
+        "errorIsSpotifyPlaylist": "🔗 Ce lien est une playlist Spotify !",
+        "queueAdded": "✅ **{title}** a été ajouté à la file d'attente par <@{author}>",
+        "cantJoinChannel": "Impossible de rejoindre le salon: {error}",
+        "queueEnded": "❌ La file d'attente est terminée.",
+        "queueError": "Erreur: {error}",
+        "startedPlaying": "🎶 Commence à jouer: **{title}** {url}",
+        "skipSong": "<@{author}> ⏩ a skip la musique.",
+        "pauseSong": "<@{author}> ⏸ a mis en pause la musique.",
+        "resumeSong": "<@{author}> ▶ repris la musique!",
+        "stopSong": "<@{author}> ⏹ arrête la musique!",
+        "leaveChannel": "Quitte le salon vocal...",
+        "songNotFound": "Audio non trouvé",
+        "songAccessErr": "La vidéo est soumise à une limite d'âge, privée ou indisponible"
+    },
+    "playlist": {
+        "description": "Écoute une playlist venant de YouTube",
+        "usagesReply": "Utilisation: {prefix}playlist <URL de la playlist YouTube | Nom de la playlist>",
+        "errorNotChannel": "Vous devez d'abord rejoindre un salon vocal!",
+        "errorNotInSameChannel": "Vous devez être dans le même salon que {user}",
+        "missingPermissionConnect": "Impossible de se connecter au salon vocal, autorisations manquantes",
+        "missingPermissionSpeak": "Je ne peux pas parler dans ce salon vocal, assurez-vous que j'ai les autorisations!",
+        "errorNotFoundPlaylist": "Playlist introuvable :(",
+        "fetchingPlaylist": "⌛ récupère la playlist...",
+        "playlistCharLimit": "\nListe de lecture supérieure à la limite de caractères...",
+        "startedPlaylist": "<@{author}> a commencé une playlist",
+        "cantJoinChannel": "Impossible de rejoindre le salon: {error}"
+    },
+    "queue": {
+        "description": "Afficher la file d'attente et la musique en cours de lecture.",
+        "missingPermissionMessage": "Il me manque l'autorisation de gérer les messages ou d'ajouter des réactions",
+        "errorNotQueue": "❌ **Rien ne joue sur ce serveur**",
+        "currentPage": "Page actuelle - ",
+        "embedTitle": "Song Queue\n",
+        "embedCurrentSong": "**Morceau en cours - [{title}]({url})**\n\n{info}"
+    },
+    "resume": {
+        "description": "Reprendre la lecture de la musique en cours",
+        "errorNotQueue": "Il n'y a rien à jouer.",
+        "resultNotPlaying": "<@{author}> ▶ reprend la musique!",
+        "errorPlaying": "La file d'attente n'est pas mise en pause."
+    },
+    "search": {
+        "description": "Recherchez et sélectionnez des vidéos à écouter",
+        "usageReply": "Utilisation: {prefix}{name} <Nom de la vidéo>",
+        "errorAlreadyCollector": "Un collecteur de messages est déjà actif dans ce salon.",
+        "errorNotChannel": "Vous devez d'abord rejoindre un salon vocal!",
+        "resultEmbedTitle": "**Répondez avec le numéro de la chanson que vous souhaitez écouter**",
+        "resultEmbedDesc": "Résultat pour: {search}",
+        "optionQuery": "Requête de recherche"
+    },
+    "shuffle": {
+        "description": "Mélange la file d'attentre",
+        "errorNotQueue": "Il n'y a pas de file d'attente.",
+        "result": "<@{author}> 🔀 a mélangé la file d'attente"
+    },
+    "skip": {
+        "description": "Skip la musique en cours de lecture",
+        "errorNotQueue": "Il n'y a rien que je pourrais skip pour vous.",
+        "result": "<@{author}> ⏭ skip la musique"
+    },
+    "stop": {
+        "description": "Arrête la musique",
+        "errorNotQueue": "Il n'y a rien à jouer.",
+        "result": "<@{author}> ⏹ arrête la musique!"
+    },
+    "uptime": {
+        "description": "Vérifiez le uptime du bot",
+        "result": "Uptime: `{days} jour(s),{hours} heures, {minutes} minutes, {seconds} secondes`"
+    },
+    "common": {
+        "on": "**on**",
+        "off": "**off**",
+        "enabled": "**activer**",
+        "disabled": "**désactiver**",
+        "errorNotChannel": "Vous devez d'abord rejoindre un salon vocal!",
+        "cooldownMessage": "S'il vous plaît, attendez {time} secondes avant de réutiliser la commande `{name}`.",
+        "errorCommand": "Une erreur s'est produite lors de l'exécution de cette commande."
+    }
+}
