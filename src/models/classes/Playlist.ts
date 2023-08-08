@@ -25,8 +25,8 @@ export class Playlist {
     }
 
     public static async from(url: string = "", search: string = "") {
-        const urlYoutubeValid =  new RegExp(youtubePlaylistPattern).test(url)
-        const urlSpotifyValid =  new RegExp(spotifyPlaylistPattern).test(url)
+        const urlYoutubeValid = new RegExp(youtubePlaylistPattern).test(url)
+        const urlSpotifyValid = new RegExp(spotifyPlaylistPattern).test(url)
 
         let playlist
 

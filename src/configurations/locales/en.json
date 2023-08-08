@@ -39,10 +39,10 @@
         "songNotFound": "Audio Not Found",
         "songAccessErr": "Video is age restricted, private or unavailable",
         "errorNoResults": "No results found for {url}",
-        "errorInvalidURL": "Invalid URL, please try a search or youtube url or spotify url"
+        "errorInvalidURL": "Invalid URL, please try a search or YouTube url or Spotify url"
     },
     "playlist": {
-        "description": "Play a playlist from youtube",
+        "description": "Play a playlist from YouTube or Spotify",
         "usagesReply": "Usage: {prefix}playlist <YouTube Playlist URL | Spotify Playlist URL | Playlist Name>",
         "errorNotChannel": "You need to join a voice channel first!",
         "errorNotInSameChannel": "You must be in the same channel as {user}",

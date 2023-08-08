@@ -21,7 +21,7 @@
         "result": "📈 Ping vers l'API: {ping} ms"
     },
     "play": {
-        "description": "Écoute de la musique depuis YouTube ou SoundCloud",
+        "description": "Écoute de la musique depuis YouTube ou Spotify",
         "loading": "⏳ Chargement...",
         "errorNotChannel": "Vous devez d'abord rejoindre un salon vocal!",
         "errorNotInSameChannel": "Vous devez être dans le même salon que {user}",
@@ -41,8 +41,8 @@
         "songAccessErr": "La vidéo est soumise à une limite d'âge, privée ou indisponible"
     },
     "playlist": {
-        "description": "Écoute une playlist venant de YouTube",
-        "usagesReply": "Utilisation: {prefix}playlist <URL de la playlist YouTube | Nom de la playlist>",
+        "description": "Écoute une playlist venant de YouTube ou Spotify",
+        "usagesReply": "Utilisation: {prefix}playlist <URL de la playlist YouTube | URL de la playlist Spotify | Nom de la playlist>",
         "errorNotChannel": "Vous devez d'abord rejoindre un salon vocal!",
         "errorNotInSameChannel": "Vous devez être dans le même salon que {user}",
         "missingPermissionConnect": "Impossible de se connecter au salon vocal, autorisations manquantes",

@@ -11,7 +11,15 @@ import {
     VoiceConnectionState,
     VoiceConnectionStatus
 } from "@discordjs/voice"
-import { CommandInteraction, Message, TextChannel, User } from "discord.js"
+import {
+    ButtonBuilder,
+    ActionRowBuilder,
+    ButtonStyle,
+    CommandInteraction,
+    Message,
+    TextChannel,
+    ButtonInteraction
+} from "discord.js"
 import { promisify } from "node:util"
 import { bot } from "../../main"
 import { QueueOptions } from "../interfaces"
@@ -164,71 +172,67 @@ export class MusicQueue {
 
     private async sendPlayingMessage(newState: any) {
         const song = (newState.resource as AudioResource<Song>).metadata
-
         let playingMessage: Message
-
         try {
-            playingMessage = await this.textChannel.send(
-                (newState.resource as AudioResource<Song>).metadata.startMessage()
+            const buttons = new ActionRowBuilder<ButtonBuilder>().addComponents(
+                new ButtonBuilder().setCustomId("skip").setEmoji("⏭").setStyle(ButtonStyle.Primary),
+                new ButtonBuilder().setCustomId("play").setEmoji("⏯").setStyle(ButtonStyle.Primary),
+                new ButtonBuilder().setCustomId("shuffle").setEmoji("🔀").setStyle(ButtonStyle.Primary),
+                new ButtonBuilder().setCustomId("stop").setEmoji("⏹").setStyle(ButtonStyle.Danger)
             )
-            await playingMessage.react("⏭")
-            await playingMessage.react("⏯")
-            await playingMessage.react("🔀")
-            await playingMessage.react("⏹")
+            playingMessage = await this.textChannel.send({
+                content: (newState.resource as AudioResource<Song>).metadata.startMessage(),
+                components: [buttons]
+            })
         } catch (error: any) {
             console.error(error)
             this.textChannel.send(error.message)
             return
         }
 
-        const filter = (_: any, user: User) => user.id !== this.textChannel.client.user!.id
-
-        const collector = playingMessage.createReactionCollector({
-            filter,
-            time: song.duration > 0 ? song.duration * 1000 : 600000
+        const collector = playingMessage.createMessageComponentCollector({
+            time: song.duration > 0 ? song.duration * 1000 + 20000 : 600000
         })
 
-        collector.on("collect", async (reaction, user) => {
+        collector.on("collect", async (interaction: ButtonInteraction) => {
             if (!this.songs) return
 
             Object.defineProperty(this.interaction, "user", {
-                value: user
+                value: interaction.user
             })
 
-            switch (reaction.emoji.name) {
-                case "⏭":
-                    reaction.users.remove(user).catch(console.error)
-                    await this.bot.slashCommandsMap.get("skip")!.execute(this.interaction)
+            switch (interaction.customId) {
+                case "skip":
+                    await this.bot.slashCommandsMap.get("skip")!.execute(interaction)
                     break
 
-                case "⏯":
-                    reaction.users.remove(user).catch(console.error)
+                case "play":
                     if (this.player.state.status == AudioPlayerStatus.Playing) {
-                        await this.bot.slashCommandsMap.get("pause")!.execute(this.interaction)
+                        await this.bot.slashCommandsMap.get("pause")!.execute(interaction)
                     } else {
-                        await this.bot.slashCommandsMap.get("resume")!.execute(this.interaction)
+                        await this.bot.slashCommandsMap.get("resume")!.execute(interaction)
                     }
                     break
 
-                case "🔀":
-                    reaction.users.remove(user).catch(console.error)
-                    await this.bot.slashCommandsMap.get("shuffle")!.execute(this.interaction)
+                case "shuffle":
+                    await this.bot.slashCommandsMap.get("shuffle")!.execute(interaction)
                     break
 
-                case "⏹":
-                    reaction.users.remove(user).catch(console.error)
-                    await this.bot.slashCommandsMap.get("stop")!.execute(this.interaction)
+                case "stop":
+                    await this.bot.slashCommandsMap.get("stop")!.execute(interaction)
                     collector.stop()
                     break
 
                 default:
-                    reaction.users.remove(user).catch(console.error)
                     break
             }
         })
 
         collector.on("end", () => {
-            playingMessage.reactions.removeAll().catch(console.error)
+            playingMessage.edit({
+                content: playingMessage.content,
+                components: []
+            })
         })
     }
 }
