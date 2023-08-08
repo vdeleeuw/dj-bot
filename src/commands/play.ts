@@ -19,8 +19,8 @@ export default {
         PermissionsBitField.Flags.ManageMessages
     ],
     async execute(interaction: ChatInputCommandInteraction, input: string) {
-        let argSongName = interaction.options.getString("query")
-        if (!argSongName) argSongName = input
+        let argQuery = interaction.options.getString("query")
+        if (!argQuery) argQuery = input
 
         const guildMember = interaction.guild!.members.cache.get(interaction.user.id)
         const { channel } = guildMember!.voice
@@ -38,17 +38,17 @@ export default {
                 })
                 .catch(console.error)
 
-        const url = argSongName
+        const url = argQuery
 
         if (interaction.replied) await interaction.editReply(i18n.__mf("play.loading")).catch(console.error)
-        else await interaction.reply(i18n.__mf("play.loading"))
+        else await interaction.reply(i18n.__mf("play.loading")).catch(console.error)
 
-        if (youtubePlaylistPattern.test(url)) {
+        if (new RegExp(youtubePlaylistPattern).test(url)) {
             await interaction.editReply(i18n.__mf("play.errorIsYoutubePlaylist")).catch(console.error)
-            return bot.slashCommandsMap.get("playlist")!.execute(interaction)
-        } else if (spotifyPlaylistPattern.test(url)) {
+            return bot.slashCommandsMap.get("playlist")!.execute(interaction, url)
+        } else if (new RegExp(spotifyPlaylistPattern).test(url)) {
             await interaction.editReply(i18n.__mf("play.errorIsSpotifyPlaylist")).catch(console.error)
-            return bot.slashCommandsMap.get("playlist")!.execute(interaction)
+            return bot.slashCommandsMap.get("playlist")!.execute(interaction, url)
         }
 
         let song

@@ -169,7 +169,6 @@ export class MusicQueue {
 
         let playingMessage: Message
 
-        // creation message
         try {
             playingMessage = await this.textChannel.send(
                 (newState.resource as AudioResource<Song>).metadata.startMessage()

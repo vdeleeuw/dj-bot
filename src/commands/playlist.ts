@@ -9,27 +9,26 @@ export default {
     data: new SlashCommandBuilder()
         .setName("playlist")
         .setDescription(i18n.__("playlist.description"))
-        .addStringOption((option) =>
-            option.setName("playlist").setDescription("Playlist name or link").setRequired(true)
-        ),
+        .addStringOption((option) => option.setName("query").setDescription("Playlist name or link").setRequired(true)),
     permissions: [
         PermissionsBitField.Flags.Connect,
         PermissionsBitField.Flags.Speak,
         PermissionsBitField.Flags.AddReactions,
         PermissionsBitField.Flags.ManageMessages
     ],
-    async execute(interaction: ChatInputCommandInteraction) {
-        let argPlaylistName = interaction.options.getString("playlist")
+    async execute(interaction: ChatInputCommandInteraction, input: string) {
+        let argQuery = interaction.options.getString("query")
+        if (!argQuery) argQuery = input
 
-        const guildMemer = interaction.guild!.members.cache.get(interaction.user.id)
-        const { channel } = guildMemer!.voice
-
-        const queue = bot.queues.get(interaction.guild!.id)
+        const guildMember = interaction.guild!.members.cache.get(interaction.user.id)
+        const { channel } = guildMember!.voice
 
         if (!channel)
             return interaction
                 .reply({ content: i18n.__("playlist.errorNotChannel"), ephemeral: true })
                 .catch(console.error)
+
+        const queue = bot.queues.get(interaction.guild!.id)
 
         if (queue && channel.id !== queue.connection.joinConfig.channelId)
             if (interaction.replied)
@@ -49,7 +48,7 @@ export default {
         let playlist
 
         try {
-            playlist = await Playlist.from(argPlaylistName!.split(" ")[0], argPlaylistName!)
+            playlist = await Playlist.from(argQuery, argQuery)
         } catch (error) {
             console.error(error)
 

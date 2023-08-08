@@ -23,8 +23,8 @@ export class Song {
     }
 
     public static async from(url: string = "", search: string = ""): Promise<Song> {
-        const isYoutubeUrl = youtubeVideoPattern.test(url)
-        const isSpotifyUrl = spotifySongPattern.test(url)
+        const isYoutubeUrl = new RegExp(youtubeVideoPattern).test(url)
+        const isSpotifyUrl = new RegExp(spotifySongPattern).test(url)
         let songInfo
 
         if (isYoutubeUrl) {
@@ -46,7 +46,7 @@ export class Song {
             if (!result) {
                 let err = new Error(`No search results found for ${search}`)
                 err.name = "NoResults"
-                if (urlPattern.test(url)) err.name = "InvalidURL"
+                if (new RegExp(urlPattern).test(url)) err.name = "InvalidURL"
                 throw err
             }
 
