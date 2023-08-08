@@ -2,14 +2,16 @@ import { DiscordGatewayAdapterCreator, joinVoiceChannel } from "@discordjs/voice
 import { ChatInputCommandInteraction, PermissionsBitField, SlashCommandBuilder, TextChannel } from "discord.js"
 import { bot } from "../main"
 import { i18n } from "../configurations"
-import { createEmbedMessage } from "../utils"
+import { createEmbedMessage, replyToInteraction } from "../utils"
 import { MusicQueue, Playlist as Playlist, Song } from "../models"
 
 export default {
     data: new SlashCommandBuilder()
         .setName("playlist")
         .setDescription(i18n.__("playlist.description"))
-        .addStringOption((option) => option.setName("query").setDescription("Playlist name or link").setRequired(true)),
+        .addStringOption((option) =>
+            option.setName("query").setDescription(i18n.__("playlist.description")).setRequired(true)
+        ),
     permissions: [
         PermissionsBitField.Flags.Connect,
         PermissionsBitField.Flags.Speak,
@@ -23,27 +25,12 @@ export default {
         const guildMember = interaction.guild!.members.cache.get(interaction.user.id)
         const { channel } = guildMember!.voice
 
-        if (!channel)
-            return interaction
-                .reply({ content: i18n.__("playlist.errorNotChannel"), ephemeral: true })
-                .catch(console.error)
+        if (!channel) return replyToInteraction(interaction, i18n.__mf("common.errorNotChannel"), true)
 
         const queue = bot.queues.get(interaction.guild!.id)
 
         if (queue && channel.id !== queue.connection.joinConfig.channelId)
-            if (interaction.replied)
-                return interaction
-                    .editReply({
-                        content: i18n.__mf("play.errorNotInSameChannel", { user: interaction.client.user!.username })
-                    })
-                    .catch(console.error)
-            else
-                return interaction
-                    .reply({
-                        content: i18n.__mf("play.errorNotInSameChannel", { user: interaction.client.user!.username }),
-                        ephemeral: true
-                    })
-                    .catch(console.error)
+            return replyToInteraction(interaction, i18n.__mf("common.errorNotInSameChannel"), true)
 
         let playlist
 
@@ -51,15 +38,7 @@ export default {
             playlist = await Playlist.from(argQuery, argQuery)
         } catch (error) {
             console.error(error)
-
-            if (interaction.replied)
-                return interaction
-                    .editReply({ content: i18n.__("playlist.errorNotFoundPlaylist") })
-                    .catch(console.error)
-            else
-                return interaction
-                    .reply({ content: i18n.__("playlist.errorNotFoundPlaylist"), ephemeral: true })
-                    .catch(console.error)
+            return replyToInteraction(interaction, i18n.__mf("playlist.errorNotFoundPlaylist"), true)
         }
 
         if (queue) {
@@ -81,7 +60,7 @@ export default {
         }
 
         let playlistEmbed = createEmbedMessage()
-            .setTitle(`${playlist?.data?.title ?? "Playlist"}`)
+            .setTitle(`${playlist?.data?.title ?? i18n.__("playlist.defaultTitle")}`)
             .setDescription(
                 playlist.videos
                     .map((song: Song, index: number) => `${index + 1}. ${song.title}`)

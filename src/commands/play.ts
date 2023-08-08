@@ -4,13 +4,14 @@ import { i18n } from "../configurations/I18n"
 import { spotifyPlaylistPattern, youtubePlaylistPattern } from "../models/constants/Patterns"
 import { MusicQueue, Song } from "../models"
 import { bot } from "../main"
+import { replyToInteraction } from "../utils"
 
 export default {
     data: new SlashCommandBuilder()
         .setName("play")
         .setDescription(i18n.__("play.description"))
         .addStringOption((option) =>
-            option.setName("query").setDescription("The song you want to play").setRequired(true)
+            option.setName("query").setDescription(i18n.__("play.description")).setRequired(true)
         ),
     permissions: [
         PermissionsBitField.Flags.Connect,
@@ -25,29 +26,26 @@ export default {
         const guildMember = interaction.guild!.members.cache.get(interaction.user.id)
         const { channel } = guildMember!.voice
 
-        if (!channel)
-            return interaction.reply({ content: i18n.__("play.errorNotChannel"), ephemeral: true }).catch(console.error)
+        if (!channel) return replyToInteraction(interaction, i18n.__mf("common.errorNotChannel"), true)
 
         const queue = bot.queues.get(interaction.guild!.id)
 
         if (queue && channel.id !== queue.connection.joinConfig.channelId)
-            return interaction
-                .reply({
-                    content: i18n.__mf("play.errorNotInSameChannel", { user: bot.client.user!.username }),
-                    ephemeral: true
-                })
-                .catch(console.error)
+            return replyToInteraction(
+                interaction,
+                i18n.__mf("common.errorNotInSameChannel", { user: bot.client.user!.username }),
+                true
+            )
 
         const url = argQuery
 
-        if (interaction.replied) await interaction.editReply(i18n.__mf("play.loading")).catch(console.error)
-        else await interaction.reply(i18n.__mf("play.loading")).catch(console.error)
+        await replyToInteraction(interaction, i18n.__mf("play.loading"))
 
         if (new RegExp(youtubePlaylistPattern).test(url)) {
-            await interaction.editReply(i18n.__mf("play.errorIsYoutubePlaylist")).catch(console.error)
+            await replyToInteraction(interaction, i18n.__mf("play.errorIsYoutubePlaylist"))
             return bot.slashCommandsMap.get("playlist")!.execute(interaction, url)
         } else if (new RegExp(spotifyPlaylistPattern).test(url)) {
-            await interaction.editReply(i18n.__mf("play.errorIsSpotifyPlaylist")).catch(console.error)
+            await replyToInteraction(interaction, i18n.__mf("play.errorIsSpotifyPlaylist"))
             return bot.slashCommandsMap.get("playlist")!.execute(interaction, url)
         }
 
@@ -59,28 +57,17 @@ export default {
             console.error(error)
 
             if (error.name == "NoResults")
-                return interaction
-                    .reply({ content: i18n.__mf("play.errorNoResults", { url: `<${url}>` }), ephemeral: true })
-                    .catch(console.error)
+                return replyToInteraction(interaction, i18n.__mf("play.errorNoResults", { url: `<${url}>` }), true)
 
             if (error.name == "InvalidURL")
-                return interaction
-                    .reply({ content: i18n.__mf("play.errorInvalidURL", { url: `<${url}>` }), ephemeral: true })
-                    .catch(console.error)
+                return replyToInteraction(interaction, i18n.__mf("play.errorInvalidURL", { url: `<${url}>` }), true)
 
-            if (interaction.replied)
-                return await interaction.editReply({ content: i18n.__("common.errorCommand") }).catch(console.error)
-            else
-                return interaction
-                    .reply({ content: i18n.__("common.errorCommand"), ephemeral: true })
-                    .catch(console.error)
+            replyToInteraction(interaction, i18n.__mf("common.errorCommand"), true)
         }
 
         if (queue) {
-            queue.enqueue(song)
-            return (interaction.channel as TextChannel)
-                .send({ content: i18n.__mf("play.queueAdded", { title: song.title, author: interaction.user.id }) })
-                .catch(console.error)
+            queue.enqueue(song!)
+            return replyToInteraction(interaction, i18n.__mf("play.queueAdded", { title: song!.title, author: interaction.user.id }))
         }
 
         const newQueue = new MusicQueue({
@@ -94,8 +81,6 @@ export default {
         })
 
         bot.queues.set(interaction.guild!.id, newQueue)
-
-        newQueue.enqueue(song)
-        interaction.deleteReply().catch(console.error)
+        newQueue.enqueue(song!)
     }
 }

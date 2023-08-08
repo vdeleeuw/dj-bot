@@ -8,22 +8,20 @@ import {
 import youtube, { Video } from "youtube-sr"
 import { bot } from "../main"
 import { i18n } from "../configurations/I18n"
+import { replyToInteraction } from "../utils"
 
 export default {
     data: new SlashCommandBuilder()
         .setName("search")
         .setDescription(i18n.__("search.description"))
         .addStringOption((option) =>
-            option.setName("query").setDescription(i18n.__("search.optionQuery")).setRequired(true)
+            option.setName("query").setDescription(i18n.__("search.optionQueryDescription")).setRequired(true)
         ),
     async execute(interaction: ChatInputCommandInteraction) {
         const query = interaction.options.getString("query", true)
         const member = interaction.guild!.members.cache.get(interaction.user.id)
 
-        if (!member?.voice.channel)
-            return interaction
-                .reply({ content: i18n.__("search.errorNotChannel"), ephemeral: true })
-                .catch(console.error)
+        if (!member?.voice.channel) return replyToInteraction(interaction, i18n.__mf("common.errorNotChannel"), true)
 
         const search = query
 
@@ -35,7 +33,7 @@ export default {
             results = await youtube.search(search, { limit: 10, type: "video" })
         } catch (error: any) {
             console.error(error)
-            interaction.editReply({ content: i18n.__("common.errorCommand") }).catch(console.error)
+            replyToInteraction(interaction, i18n.__mf("common.errorCommand"), true)
         }
 
         if (!results) return
@@ -50,14 +48,14 @@ export default {
         const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
             new StringSelectMenuBuilder()
                 .setCustomId("search-select")
-                .setPlaceholder("Nothing selected")
+                .setPlaceholder(i18n.__("search.placeholder"))
                 .setMinValues(1)
                 .setMaxValues(10)
                 .addOptions(options)
         )
 
         const followUp = await interaction.followUp({
-            content: "Choose songs to play",
+            content: i18n.__("search.choose"),
             components: [row]
         })
 
@@ -68,7 +66,7 @@ export default {
             .then((selectInteraction) => {
                 if (!(selectInteraction instanceof StringSelectMenuInteraction)) return
 
-                selectInteraction.update({ content: "⏳ Loading the selected songs...", components: [] })
+                selectInteraction.update({ content: i18n.__("search.loading"), components: [] })
 
                 bot.slashCommandsMap
                     .get("play")!

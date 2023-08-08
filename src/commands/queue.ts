@@ -9,7 +9,7 @@ import {
 } from "discord.js"
 import { bot } from "../main"
 import { Song } from "../models"
-import { createEmbedMessage } from "../utils"
+import { createEmbedMessage, replyToInteraction } from "../utils"
 import { i18n } from "../configurations/I18n"
 
 export default {
@@ -17,12 +17,13 @@ export default {
     permissions: [PermissionsBitField.Flags.AddReactions, PermissionsBitField.Flags.ManageMessages],
     async execute(interaction: ChatInputCommandInteraction) {
         const queue = bot.queues.get(interaction.guild!.id)
-        if (!queue || !queue.songs.length) return interaction.reply({ content: i18n.__("queue.errorNotQueue") })
+        if (!queue || !queue.songs.length)
+            return replyToInteraction(interaction, i18n.__mf("common.errorNotQueue"), true)
 
         let currentPage = 0
         const embeds = generateQueueEmbed(interaction, queue.songs)
 
-        await interaction.reply(i18n.__mf("queue.loading"))
+        await replyToInteraction(interaction, i18n.__mf("queue.loading"))
 
         if (interaction.replied)
             await interaction.editReply({
@@ -38,7 +39,7 @@ export default {
             await queueEmbed.react("➡️")
         } catch (error: any) {
             console.error(error)
-            ;(interaction.channel as TextChannel).send(error.message).catch(console.error)
+            return interaction.followUp(error.message).catch(console.error)
         }
 
         const filter = (reaction: MessageReaction, user: User) =>
@@ -71,7 +72,7 @@ export default {
                 await reaction.users.remove(interaction.user.id)
             } catch (error: any) {
                 console.error(error)
-                return (interaction.channel as TextChannel).send(error.message).catch(console.error)
+                return interaction.followUp(error.message).catch(console.error)
             }
         })
     }

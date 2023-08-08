@@ -127,6 +127,14 @@ export class MusicQueue {
         this.processQueue()
     }
 
+    public enqueueNext(...songs: Song[]) {
+        if (this.waitTimeout !== null) clearTimeout(this.waitTimeout)
+        this.waitTimeout = null
+        this.stopped = false
+        this.songs.splice(1, 0, ...songs.reverse());
+        this.processQueue()
+    }
+
     public stop() {
         if (this.stopped) return
 
@@ -191,7 +199,7 @@ export class MusicQueue {
         }
 
         const collector = playingMessage.createMessageComponentCollector({
-            time: song.duration > 0 ? song.duration * 1000 + 20000 : 600000
+            time: song.duration > 0 ? song.duration * 1000 + 2500 : 600000
         })
 
         collector.on("collect", async (interaction: ButtonInteraction) => {
@@ -204,6 +212,7 @@ export class MusicQueue {
             switch (interaction.customId) {
                 case "skip":
                     await this.bot.slashCommandsMap.get("skip")!.execute(interaction)
+                    collector.stop()
                     break
 
                 case "play":

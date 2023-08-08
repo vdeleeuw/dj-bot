@@ -1,6 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js"
 import { bot } from "../main"
 import { i18n } from "../configurations/I18n"
+import { replyToInteraction } from "../utils"
 
 export default {
     data: new SlashCommandBuilder().setName("uptime").setDescription(i18n.__("uptime.description")),
@@ -14,10 +15,9 @@ export default {
         minutes %= 60
         hours %= 24
 
-        return interaction
-            .reply({
-                content: i18n.__mf("uptime.result", { days: days, hours: hours, minutes: minutes, seconds: seconds })
-            })
-            .catch(console.error)
+        return replyToInteraction(
+            interaction,
+            i18n.__mf("uptime.result", { days: days, hours: hours, minutes: minutes, seconds: seconds })
+        )
     }
 }
