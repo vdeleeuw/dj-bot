@@ -18,6 +18,6 @@
         "importHelpers": true,
         "strictPropertyInitialization": false
     },
-    "include": ["./", "./config.json", "./locales/*.json"],
-    "exclude": ["/.github", "./dist", "./node_modules"]
+    "include": ["./src", "./config.json", "./src/configurations/locales/*.json"],
+    "exclude": ["/.git", "./dist", "./node_modules"]
 }

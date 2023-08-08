@@ -5,7 +5,7 @@
     "main": "src/main.ts",
     "author": "vdeleeuw",
     "scripts": {
-        "start": "ts-node src/main.ts",
+        "start": "node ./dist/src/main.js",
         "build": "tsc --build",
         "dev": "eslint && npm run build && npm run start",
         "prod": "npm run build && node ./dist/src/main.js",
@@ -42,7 +42,6 @@
         "eslint-plugin-jsdoc": "^46.4.5",
         "eslint-plugin-prefer-arrow": "^1.2.0",
         "eslint-plugin-prettier": "^5.0.0",
-        "prettier": "^3.0.1",
-        "ts-node": "^10.9.1"
+        "prettier": "^3.0.1"
     }
 }
