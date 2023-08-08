@@ -30,8 +30,6 @@ export class MusicQueue {
 
     public resource: AudioResource
     public songs: Song[] = []
-    public volume = 100
-    public muted = false
     public waitTimeout: NodeJS.Timeout | null
 
     private queueLock = false
@@ -155,7 +153,7 @@ export class MusicQueue {
             const resource = await nextSong.makeYoutubeResource()
             this.resource = resource!
             this.player.play(this.resource)
-            this.resource.volume?.setVolumeLogarithmic(this.volume / 100)
+            this.resource.volume?.setVolumeLogarithmic(1)
         } catch (error) {
             console.error(error)
             return this.processQueue()
