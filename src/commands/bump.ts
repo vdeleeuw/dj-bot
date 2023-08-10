@@ -38,7 +38,10 @@ export default {
             if (queue) {
                 const song = await Song.from(argQuery!, argQuery!)
                 queue.enqueueNext(song)
-                return replyToInteraction(interaction, i18n.__mf("bump.queueAdded", { title: song!.title, author: interaction.user.id }))
+                return replyToInteraction(
+                    interaction,
+                    i18n.__mf("bump.queueAdded", { title: song!.title, author: interaction.user.id })
+                )
             } else {
                 return await bot.slashCommandsMap.get("play")!.execute(interaction, argQuery)
             }

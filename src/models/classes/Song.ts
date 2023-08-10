@@ -49,19 +49,28 @@ export class Song {
                 if (new RegExp(urlPattern).test(url)) err.name = "InvalidURL"
                 throw err
             }
-
-            songInfo = await video_basic_info(`https://youtube.com/watch?v=${result.id}`)
-            return new this({
-                url: songInfo.video_details.url,
-                title: songInfo.video_details.title,
-                duration: parseInt(songInfo.video_details.durationInSec)
-            })
+            try {
+                songInfo = await video_basic_info(`https://youtube.com/watch?v=${result.id}`)
+                return new this({
+                    url: songInfo.video_details.url,
+                    title: songInfo.video_details.title,
+                    duration: parseInt(songInfo.video_details.durationInSec)
+                })
+            } catch (error) {
+                console.error(error)
+                throw error
+            }
         }
     }
 
     public async makeYoutubeResource(): Promise<AudioResource<Song> | void> {
         if (!this.url && this.title) {
-            Object.assign(this, await Song.from("", this.title))
+            try {
+                Object.assign(this, await Song.from("", this.title))
+            } catch (error) {
+                console.error(error)
+                throw error
+            }
         }
 
         let playStream = await stream(this.url)

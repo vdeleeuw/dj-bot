@@ -131,7 +131,7 @@ export class MusicQueue {
         if (this.waitTimeout !== null) clearTimeout(this.waitTimeout)
         this.waitTimeout = null
         this.stopped = false
-        this.songs.splice(1, 0, ...songs.reverse());
+        this.songs.splice(1, 0, ...songs.reverse())
         this.processQueue()
     }
 

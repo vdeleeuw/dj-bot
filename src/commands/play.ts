@@ -67,7 +67,10 @@ export default {
 
         if (queue) {
             queue.enqueue(song!)
-            return replyToInteraction(interaction, i18n.__mf("play.queueAdded", { title: song!.title, author: interaction.user.id }))
+            return replyToInteraction(
+                interaction,
+                i18n.__mf("play.queueAdded", { title: song!.title, author: interaction.user.id })
+            )
         }
 
         const newQueue = new MusicQueue({
