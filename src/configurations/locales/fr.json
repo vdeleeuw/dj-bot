@@ -27,7 +27,7 @@
         "loading": "⏳ Chargement...",
         "queueAdded": "✅ **{title}** a été ajouté à la file d'attente par <@{author}>",
         "queueEnded": "❌ File d'attente terminée.",
-        "startedPlaying": "🎶 A commencé à jouer : **{title}** {url}",
+        "startedPlaying": "🎵 A commencé à jouer : **{title}** {url}",
         "leaveChannel": "👋 Quitte le canal vocal...",
         "optionQueryDescription": "Nom de la chanson ou lien",
         "errorNoResults": "❌ Aucun résultat trouvé pour {url}",
