@@ -4,7 +4,6 @@ import {
     MessageReaction,
     PermissionsBitField,
     SlashCommandBuilder,
-    TextChannel,
     User
 } from "discord.js"
 import { bot } from "../main"
