@@ -62,7 +62,7 @@ export default {
             if (error.name == "InvalidURL")
                 return replyToInteraction(interaction, i18n.__mf("play.errorInvalidURL", { url: `<${url}>` }), true)
 
-            replyToInteraction(interaction, i18n.__mf("common.errorCommand"), true)
+            return replyToInteraction(interaction, i18n.__mf("common.errorCommand"), true)
         }
 
         if (queue) {

@@ -33,7 +33,7 @@ export default {
             results = await youtube.search(search, { limit: 10, type: "video" })
         } catch (error: any) {
             console.error(error)
-            replyToInteraction(interaction, i18n.__mf("common.errorCommand"), true)
+            return replyToInteraction(interaction, i18n.__mf("common.errorCommand"), true)
         }
 
         if (!results) return

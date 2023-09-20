@@ -21,12 +21,12 @@
         "discord.js": "^14.11.0",
         "ffmpeg-static": "^5.1.0",
         "i18n": "^0.15.1",
-        "libsodium-wrappers": "^0.7.11",
         "play-dl": "^1.9.6",
         "string-progressbar": "^1.0.4",
         "youtube-sr": "^4.3.0"
     },
     "optionalDependencies": {
+        "@discordjs/opus": "^0.9.0",
         "libsodium-wrappers": "^0.7.11",
         "sodium-native": "^3.4.1"
     },
